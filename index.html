@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yurison.stairs</title>
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+
+<!-- 신택스 하이라이터 플러그인 라이브러리 시작 -->
+<link rel="stylesheet" href="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.css">
+<script src="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+<!-- 신택스 하이라이터 플러그인 라이브러리 끝 -->
+<style>
+    body {
+  margin: 0;
+  padding: 0 10px;
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html > body .toastui-editor-contents {
+  font-family: 'GmarketSansMedium';
+}
+</style>
+</head>
+<body>
+    <template id="template">
+        # Hello
+        Hi
+        # Java
+        ```java
+        int a = 10;
+        int b = 20;
+        System.out.println(a+b);
+        ```
+    </template>
+    <div id="viewer"></div>
+    <script>
+        const Editor = toastui.Editor;
+
+        const template = document.querySelector("#template");
+        const templateContents = template.innerHTML;
+
+        const viewer = Editor.factory({
+            el: document.querySelector("#viewer"),
+            viewer: true,
+            initialValue: templateContents,
+            plugins: [[toastui.Editor.plugin.codeSyntaxHighlight, { highlighter: Prism }]]
+        });
+    </script>
+</body>
+</html>
