@@ -54,65 +54,15 @@
 </head>
 
 <body>
-
-  <template id="viewer-1-template">
-    # 안녕하세요.
-    ## 반가워요.
-    - 하하
-    - 호호
-    - 히히
-
-    # 자바
-    ```java
-    // 주석입니다.
-    int a = 10;
-    int b = 20;
-    System.out.println(a + b);
-    ```
-
-    $$katex
-    x^2 + y^2 = 1
-    $$
-
-    ```html
-    <script src="경로"></script>
-    ```
-
-    $$uml
-    (First usecase)
-    (Another usecase) as (UC2)
-    usecase UC3
-    usecase (Last\nusecase) as UC4
-    $$
-  </template>
   <div id="viewer-1"></div>
 
+  <ul>
+    <li><a href="javascript:showPage(3);">3번 글</li>
+    <li><a href="javascript:showPage(2);">2번 글</li>
+    <li><a href="javascript:showPage(1);">1번 글</li>
+  </ul>
+
   <script>
-    function stripIndent(str) {
-      const lines = str.split("\n");
-      let minIndent = Infinity;
-
-      // 첫 번째 줄 이후의 각 줄에서 가장 작은 들여쓰기 값을 찾습니다.
-      for (let i = 1; i < lines.length; i++) {
-        const line = lines[i];
-        const indent = line.search(/\S/); // 첫 번째 비공백 문자의 인덱스를 찾습니다.
-
-        if (indent !== -1 && indent < minIndent) {
-          minIndent = indent;
-        }
-      }
-
-      // 모든 줄에서 가장 작은 들여쓰기 값을 뺍니다.
-      if (minIndent !== Infinity) {
-        for (let i = 0; i < lines.length; i++) {
-          lines[i] = lines[i].slice(minIndent);
-        }
-      }
-
-      // 결과 문자열을 반환합니다.
-      return lines.join("\n");
-    }
-
     const Editor = toastui.Editor;
 
     function katexPlugin() {
@@ -135,9 +85,7 @@
       return { toHTMLRenderers };
     }
 
-    // id가 'viewer-1-template' 인 엘리먼트를 찾는다.
-    const viewer1TemplateEl = document.querySelector("#viewer-1-template");
-    const viewer1MarkdownSource = stripIndent(viewer1TemplateEl.innerHTML); // 포함하고 있는 내용
+    const viewer1MarkdownSource = "로딩 중"; // 포함하고 있는 내용
 
     const viewer1 = Editor.factory({
       el: document.querySelector("#viewer-1"),
@@ -152,6 +100,19 @@
         ]
       ]
     });
+
+    function showPage(pageNo) {
+      fetch(pageNo + ".md")
+        .then(response => response.text()) // 응답에서 본문만 취한다.
+        .then(text => {
+          viewer1.setMarkdown(text);
+
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        })
+    }
 
   </script>
 
